@@ -1,0 +1,109 @@
+.sign_in
+  width: 100%
+  height: 100%
+  position: fixed
+  background: url(./bg.jpg) fixed #333 repeat
+  background-size: cover
+  overflow: hidden
+  z-index: 999
+  .container-fluid
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: rgba(0, 0, 0, .6)
+    >h1
+      color: #fff
+      font-size: 16px
+      position: absolute
+      left: 10px
+      top: 10px
+    .sign-in-form
+      display: none
+      width: 350px
+      margin: 0 auto
+      border-radius: 5px
+      border: 1px rgba(255, 255, 255, .3) solid
+      background: rgba(0, 0, 0, .2)
+      position: relative
+      overflow: hidden
+      .sign-in-top
+        width: 310px
+        text-align: center
+        padding: 15px 0
+        margin: 0 20px
+        border-bottom: 1px rgba(255, 255, 255, .3) solid
+        background: none
+        .logo
+          height: 80px
+          margin: 0
+          img
+            width: 80px
+            height: 80px
+            border-radius: 80px
+            border: 1px rgba(255, 255, 255, .3) solid
+            padding: 5px
+      .sign-in-bottom
+        width: 350px
+        overflow: hidden
+        .bd
+          padding: 0 20px 0 20px
+          background: none
+          overflow: hidden
+          #alert
+            width: 60%
+            color: #fff
+            text-align: center
+            background: rgba(231, 76, 60, .6)
+            margin: 0 auto
+            margin-top: 10px
+          .field
+            clear: both
+            margin-top: 30px
+            overflow: hidden
+          .field>input
+            float: left
+            width: 270px
+            height: 40px
+            line-height: 40px
+            color: #eee
+            background: rgba(0, 0, 0, .2)
+            border: none
+            font-size: 14px
+            text-indent: 10px
+            outline: none
+          .field>input:focus
+            background: rgba(0, 0, 0, .3)
+          .field>i
+            float: left
+            display: block
+            width: 40px
+            height: 40px
+            line-height: 40px
+            text-align: center
+            font-size: 14px
+            color: #aaa
+            background: rgba(0, 0, 0, .2)
+          .actions
+            margin-top: 30px
+            margin-bottom: 30px
+          .actions>input
+            width: 100%
+            height: 40px
+            line-height: 40px
+            color: #fff
+            background: #108ee9
+            border: none
+            padding: 0
+          .actions>input:hover
+            background: lighten(#108ee9, 10%)
+    .copyright
+      width: 100%
+      position: absolute
+      left: 0
+      bottom: 10px
+      p
+        text-align: center
+        color: #fff
+        font-size: 12px
