@@ -31,7 +31,7 @@ class Table extends Component {
   componentDidMount() {
     this.setState({
       selectedKeys: [window.location.hash],
-      openKeys: this.props.openKeys,
+      openKeys: this.props.openKeys?this.props.openKeys:[],
     });
 
     $("title").text( Config.projectCn().title );
@@ -45,7 +45,7 @@ class Table extends Component {
 
   onOpenChange = (openKeys) => {
 
-    // console.log(openKeys);
+    console.log(openKeys);
     const state = this.state;
     const latestOpenKey = openKeys.find(key => !(state.openKeys.indexOf(key) > -1));
     const latestCloseKey = state.openKeys.find(key => !(openKeys.indexOf(key) > -1));

@@ -15,7 +15,7 @@ class Config extends Component {
   static projectCn = () => {
     return {
       title: "website title",
-      copyright: "website title ©2017 Created by company name"
+      copyright: "website name ©2017 Created by company name"
     };
   }
 

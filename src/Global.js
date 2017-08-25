@@ -4,7 +4,7 @@ import { notification } from 'antd';
 import $ from 'jquery';
 import Config from './Modules/Config';
 
-var hope = "";
+var hope = ""; // 有些变量不是拿来用的, 是值得占有一部分内存的希望.
 
 class Global extends Component {
 
