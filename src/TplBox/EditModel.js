@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GetColumnTpl from './GetColumnTpl';
+// import Config from '../../../../src/Modules/Config';
 import Config from '../Modules/Config';
 // import GetColumnConfig from './GetColumnConfig'; // 字段配置
 import { Modal, Form } from 'antd';

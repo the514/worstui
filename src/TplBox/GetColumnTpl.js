@@ -9,6 +9,7 @@ import CkeditorImg from './CkeditorImg';
 import WorkflowState from './WorkflowState';
 import { Tag, Input, Radio, InputNumber, Checkbox, DatePicker } from 'antd';
 import Global from '../Global';
+// import Config from '../Modules/Config';
 import $ from 'jquery';
 
 // const Option = Select.Option;

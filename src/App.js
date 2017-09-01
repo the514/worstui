@@ -20,7 +20,8 @@ class App extends React.Component {
   }
 
   render() {
-
+    // const Login = <Login config={this.props.config} />
+    // const Table = <Table config={this.props.config} />
     return (
       <HashRouter>
         <div>

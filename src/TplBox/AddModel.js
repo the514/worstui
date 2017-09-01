@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Global from '../Global';
+// import Config from '../../../../src/Modules/Config';
 import Config from '../Modules/Config';
 import GetColumnTpl from './GetColumnTpl';
 import { Modal, Button, Form } from 'antd';

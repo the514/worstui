@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Button } from 'antd';
 import $ from 'jquery';
 import Global from './Global';
+// import Config from '../../../src/Modules/Config';
 import Config from './Modules/Config';
 
 const { Sider, Footer } = Layout;
@@ -45,7 +46,7 @@ class Table extends Component {
 
   onOpenChange = (openKeys) => {
 
-    console.log(openKeys);
+    // console.log(openKeys);
     const state = this.state;
     const latestOpenKey = openKeys.find(key => !(state.openKeys.indexOf(key) > -1));
     const latestCloseKey = state.openKeys.find(key => !(openKeys.indexOf(key) > -1));

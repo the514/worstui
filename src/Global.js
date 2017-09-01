@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { notification } from 'antd';
 // import axios from 'axios';
 import $ from 'jquery';
+// import Config from '../../../src/Modules/Config';
 import Config from './Modules/Config';
 
 var hope = ""; // 有些变量不是拿来用的, 是值得占有一部分内存的希望.
@@ -25,8 +26,7 @@ class Global extends Component {
     }
 
     static columnsDataSource (key) {
-      let obj = Config.columnsDataSource(key);
-      return obj;
+      return Config.columnsDataSource(key);
     }
 
     static setTokenHeader(response) {

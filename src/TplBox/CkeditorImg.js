@@ -4,6 +4,7 @@ import { Upload, Icon, Modal } from 'antd';
 import axios from 'axios';
 // import ReactDOM from 'react-dom';
 import $ from 'jquery';
+// import Config from '../../../../src/Modules/Config';
 import Config from '../Modules/Config';
 
 class CkeditorImg extends Component {

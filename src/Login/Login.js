@@ -3,6 +3,7 @@ import './login.css';
 import Global from '../Global';
 import axios from 'axios';
 import $ from 'jquery';
+// import Config from '../../../../src/Modules/Config';
 import Config from '../Modules/Config';
 
 function LoginTpl (props) {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Global from './Global';
+// import Config from '../../../src/Modules/Config';
 import Config from './Modules/Config';
 
 import GetColumnTpl from './TplBox/GetColumnTpl';       // 字段模版
@@ -16,40 +17,8 @@ import axios from 'axios';
 import $ from 'jquery';
 
 const { Content } = Layout;
-var columnsWidth = {};
-// const confirm = Modal.confirm;
 
-// 字段配置
-export function getColumns(columnObjArr, model) {
-  let objArr = [];
-  let obj = {};
-  columnsWidth[model] = 0;
-  $.each(columnObjArr, function(index, val) {
-    obj = {};
-
-    $.each(columnObjArr[index], function(k, v) {
-      obj[k] = columnObjArr[index][k];
-    });
-
-    if (columnObjArr[index].width) {
-      if (!columnObjArr[index].fixed && !columnObjArr[index].listHidden) {
-        columnsWidth[model] += columnObjArr[index].width + 20;
-      }
-    }
-
-    if (columnObjArr[index].key!==undefined) {
-      obj.dataIndex = columnObjArr[index].key;
-    }
-
-    objArr.push(obj);
-  });
-
-  // console.log(columnsWidth);
-
-  return objArr;
-}
-
-export class List extends Component {
+class List extends Component {
 
   constructor(props) {
     super(props);
@@ -103,7 +72,7 @@ export class List extends Component {
 
   updateList = (page, filterText) => {
 
-    if (this.refs.myRef) {
+    // if (this.refs.myRef) {
 
       Global.LoadingStart();
 
@@ -248,7 +217,7 @@ export class List extends Component {
           Global.LoadingEnd();
         });
 
-    }
+    // }
 
   }
 
@@ -548,7 +517,7 @@ export class List extends Component {
         </Breadcrumb>
         <Content style={{ margin: '0 16px' }}>
           <div style={{ padding: 24, background: '#fff' }}>
-            <div ref="myRef">
+            <div>
               <AddModel
                 columns={this.props.columns}
                 title={this.props.addTitle}
@@ -575,7 +544,7 @@ export class List extends Component {
                 rowSelection={rowSelection}
                 columns={this.state.columns}
                 dataSource={this.state.data}
-                scroll={{ x: columnsWidth[this.props.model] }}
+                scroll={{ x: this.props.tableWidth[this.props.model]?this.props.tableWidth[this.props.model]:0 }}
                 pagination={
                   {
                     onChange: this.onPageChange,
@@ -595,3 +564,4 @@ export class List extends Component {
 }
 
 // export class List;
+export default List;

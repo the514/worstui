@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Global from '../Global';
 import { Upload, Icon, Modal, Button, Popover } from 'antd';
 import axios from 'axios';
+// import Config from '../../../../src/Modules/Config';
 import Config from '../Modules/Config';
 
 class ImgUpload extends Component {
