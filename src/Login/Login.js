@@ -127,11 +127,15 @@ class Login extends Component {
   }
 
   onSubmit = (e) => {
+    let loginColumnObj = {};
+    let loginUserNameColumn = Config.loginUserNameColumn();
+    let loginUserPasswordColumn = Config.loginUserPasswordColumn();
 
-    var params = {
-      account_text: this.state.mobile,
-      password_text: this.state.password
-    }
+    loginColumnObj[loginUserNameColumn] = this.state.mobile;
+    loginColumnObj[loginUserPasswordColumn] = this.state.password;
+
+    console.log(loginColumnObj);
+    var params = loginColumnObj;
 
     // const config = Global.getHeader();
     const config = {

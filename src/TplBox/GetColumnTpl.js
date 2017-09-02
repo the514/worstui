@@ -7,6 +7,7 @@ import SelectBox from './SelectBox';
 import CkBox from './CkBox';
 import CkeditorImg from './CkeditorImg';
 import WorkflowState from './WorkflowState';
+import ImgSynchroUpload from './ImgSynchroUpload';
 import { Tag, Input, Radio, InputNumber, Checkbox, DatePicker } from 'antd';
 import Global from '../Global';
 // import Config from '../Modules/Config';
@@ -297,6 +298,17 @@ const GetColumnTpl = function(k, v, dataValue, type, url, dataId, updateList, ot
         dataValue = <CkeditorImg url={url} />;
       }else{
         dataValue = dataValue?dataValue:"无";
+      }
+      break;
+    case "_manage":
+      if (type==="add") {
+        dataValue = <ImgSynchroUpload url={url} />;
+      }else if (type==="edit") {
+        dataValue = <ImgSynchroUpload url={url} />;
+      }else if (type==="show") {
+        dataValue = <ImgModal imgSrc={dataValue} height="150" />;
+      }else{
+        dataValue = <div style={{height: "150px"}}><img src={dataValue} height="150" alt="" /></div>;
       }
       break;
     case "_state":

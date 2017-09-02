@@ -167,6 +167,7 @@ class AddModel extends Component {
 
   handleCreate = (e) => {
     const form = this.form;
+    let isFileMode = false;
     
     form.validateFields((err, fieldsValue) => {
       if (err) {
@@ -193,6 +194,9 @@ class AddModel extends Component {
               break;
             case "_date":
               fieldsValue[k] = fieldsValue[k].format('YYYY-MM-DD');
+              break;
+            case "_manage":     // 如果存在需要同步上传图片的字段
+              isFileMode = true;
               break;
             default:
           }
@@ -231,6 +235,9 @@ class AddModel extends Component {
                     fieldsValue[index][k] = fieldsValue[index][k].format('YYYY-MM-DD');
                   }
                   break;
+                case "_manage":     // 如果存在需要同步上传图片的字段
+                  isFileMode = true;
+                  break;
                 default:
               }
 
@@ -244,7 +251,24 @@ class AddModel extends Component {
 
       const config = Global.getHeader();
 
-      const params = fieldsValue;
+      let params = fieldsValue;
+
+      if (isFileMode) {
+        config.headers["Content-type"] = 'multipart/form-data';
+
+        params = new FormData();
+        if (Config.jsonRequestType() === "object") {
+          for (let key of fieldsValue) {
+            params.append(key, fieldsValue[key]);
+          }
+        }else{
+          $.each(fieldsValue, function(key, val) {
+            $.each(fieldsValue[key], function(k, v) {
+              params.append(key+"["+k+"]", fieldsValue[key][k]);
+            });
+          });
+        }
+      }
 
       axios.post(this.props.url + this.props.modelUrl, params, config)
         .then(response => {

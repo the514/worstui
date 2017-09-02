@@ -54,6 +54,14 @@ class Config extends Component {
     return window.worstui_loginUrl;
   }
 
+  static loginUserNameColumn = () => {
+    return window.worstui_loginUserNameColumn;
+  }
+
+  static loginUserPasswordColumn = () => {
+    return window.worstui_loginUserPasswordColumn;
+  }
+
   static jsonRequestType = () => {
     return window.worstui_jsonRequestType; // object:纯对象, model:model{参数}
   }

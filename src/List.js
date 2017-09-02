@@ -315,6 +315,7 @@ class List extends Component {
 
   handleEditCreate = (e) => {
     const form = this.form;
+    let isFileMode = false;
     
     form.validateFields((err, fieldsValue) => {
       if (err) {
@@ -350,6 +351,9 @@ class List extends Component {
             case "_date":     // 日期moment类型需要重新转换成日期字符串
               fieldsValue[k] = fieldsValue[k].format('YYYY-MM-DD');
               break;
+            case "_manage":     // 如果存在需要同步上传图片的字段
+              isFileMode = true;
+              break;
             default:
           }
 
@@ -382,6 +386,9 @@ class List extends Component {
                 case "_date":     // 日期moment类型需要重新转换成日期字符串
                   fieldsValue[index][k] = fieldsValue[index][k].format('YYYY-MM-DD');
                   break;
+                case "_manage":     // 如果存在需要同步上传图片的字段
+                  isFileMode = true;
+                  break;
                 default:
               }
 
@@ -389,13 +396,31 @@ class List extends Component {
         });
       }
 
-      // console.log('Received values of form: ', fieldsValue);
+      console.log('Received values of form: ', fieldsValue);
 
       Global.LoadingStart();
 
       const config = Global.getHeader();
 
-      const params = fieldsValue;
+      let params = fieldsValue;
+
+      if (isFileMode) {
+        config.headers["Content-type"] = 'multipart/form-data';
+
+        params = new FormData();
+        if (Config.jsonRequestType() === "object") {
+          for (let key of fieldsValue) {
+            params.append(key, fieldsValue[key]);
+          }
+        }else{
+          $.each(fieldsValue, function(key, val) {
+            $.each(fieldsValue[key], function(k, v) {
+              params.append(key+"["+k+"]", fieldsValue[key][k]);
+            });
+          });
+        }
+      }
+
 
       axios.put(Global.getUrl() + this.props.modelUrl + "/" + this.state.dataId, params, config)
         .then(response => {
