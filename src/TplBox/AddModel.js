@@ -113,7 +113,8 @@ class AddModel extends Component {
     visible: false,
     model: [],
     modelName: [],
-    newKey: 1
+    newKey: 1,
+    showAddButton: true
   }
   componentDidMount(props) {
     let dataValue = {};
@@ -150,8 +151,12 @@ class AddModel extends Component {
       dataTpl.push(dataValue[modelName]);
     });
 
-    this.setState({model: dataTpl});
-    this.setState({modelName: modelNameArr});
+    this.setState({
+      model: dataTpl,
+      modelName: modelNameArr,
+      showAddButton: this.props.isHiddenAddButton?false:true
+    });
+    // this.setState({modelName: modelNameArr});
   }
 
   showModal = () => {
@@ -281,19 +286,23 @@ class AddModel extends Component {
           this.props.updateList();
           Global.LoadingEnd();
 
+          form.resetFields();
+          this.setState({ 
+            visible: false,
+            newKey: this.state.newKey + 1
+          });
+
         })
         .catch(function (error) {
-          Global.openNotification({type:"error", title:"操作失败", body:"请求超时，请刷新重试！"});
+          if (error.response.status === 422) {
+            Global.openNotification({type:"error", title:"操作失败", body:error.response.data.rs_msg});
+          }else{
+            Global.openNotification({type:"error", title:"操作失败", body:"请求超时，请刷新重试！"});
+          }
           console.log(error);
           Global.getAuth(error);
           Global.LoadingEnd();
         });
-
-      form.resetFields();
-      this.setState({ 
-        visible: false,
-        newKey: this.state.newKey + 1
-      });
 
     });
   }
@@ -305,10 +314,11 @@ class AddModel extends Component {
   render() {
     return (
       <div>
-        <Button className="add-button-top" type="primary" icon="plus" onClick={this.showModal}>
-          添加
-        </Button>
-
+        { this.state.showAddButton &&
+          <Button className="add-button-top" type="primary" icon="plus" onClick={this.showModal}>
+            添加
+          </Button>
+        }
         <CollectionCreateForm
           newKey={this.state.newKey}
           ref={this.saveFormRef}

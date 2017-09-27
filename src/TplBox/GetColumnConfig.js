@@ -8,11 +8,17 @@ import $ from 'jquery';
 const confirm = Modal.confirm;
 
 // 字段样式
-const GetColumnConfig = function(k, v, object, thisClass){ // k:字段名, object 当前字段配置对象, thisClass List对象
+const GetColumnConfig = function(k, v, object, thisClass, isHiddenDeleteButton){ 
+  // k:字段名, object 当前字段配置对象, thisClass List对象
+  // isShowDeleteButton 是否显示删除按钮
 
   let regExp = /(_){1}[^_]+$/;
   let textIndex = k.search(regExp);
   let thisObject = object;
+  let showDeleteButton = true;
+  if (isHiddenDeleteButton) {
+    showDeleteButton = false;
+  }
 
   if (thisObject.message) {
     thisObject.required = true;
@@ -37,6 +43,7 @@ const GetColumnConfig = function(k, v, object, thisClass){ // k:字段名, objec
       thisObject.initialValue= false;
       break;
     case "_action":
+
       thisObject.render = (text, record) => (
                     <span>
                       <a data-button="show">
@@ -48,11 +55,17 @@ const GetColumnConfig = function(k, v, object, thisClass){ // k:字段名, objec
                         <Icon type="edit" data-button="edit" style={{paddingRight: "5px"}} /> 
                         编辑
                       </a>
-                      <span className="ant-divider" />
-                      <a data-button="delete">
-                        <Icon type="delete" data-button="delete" style={{paddingRight: "5px"}} />
-                        删除
-                      </a>
+                      {
+                        showDeleteButton &&
+                        <span className="ant-divider" />
+                      }
+                      {
+                        showDeleteButton &&
+                        <a data-button="delete">
+                          <Icon type="delete" data-button="delete" style={{paddingRight: "5px"}} />
+                          删除
+                        </a>
+                      }
                     </span>
                   );
       thisObject.onCellClick = (record, event) => {

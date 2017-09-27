@@ -72,7 +72,8 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    $("title").text( Config.projectCn().title );
+    document.querySelector("title").innerHTML = Config.projectCn().title
+    // $("title").text( Config.projectCn().title );
     // const config = {
     //   headers: {
     //     // 'Content-type': 'application/json',
@@ -98,17 +99,43 @@ class Login extends Component {
     //     Global.LoadingEnd();
     //   });
 
-    $(document).ready(function(){
-      setTimeout((function(){
-        var window_height = $(window).height();
-        var form_height = $(".sign-in-form").height();
-        
-        if(window_height > 0){
-          $(".sign-in-form").css("marginTop",((window_height-form_height-50)/2)+"px").fadeIn();
-        }
+    // document.addEventListener("DOMContentLoaded", function(event) { 
+    //   console.log(11);
+    //   setTimeout((function(){
+    //     var window_height = document.body.clientHeight;
+    //     // var form_height = document.querySelector(".sign-in-form").offsetHeight;
+    //     var form_height = 353;
+    //     if(window_height > 0){
+    //       document.querySelector(".sign-in-form").style.marginTop = ((window_height-form_height-50)/2)+"px";
+    //       document.querySelector(".sign-in-form").classList.add("fadeIn");
+    //       document.querySelector(".sign-in-form").style.display = 'block';
+    //       // $(".sign-in-form").css("marginTop",((window_height-form_height-50)/2)+"px").fadeIn();
+    //     }
     
-      }),300);
-    });
+    //   }), 300);
+    // });
+    setTimeout((function(){
+      var window_height = document.body.clientHeight;
+      // var form_height = document.querySelector(".sign-in-form").offsetHeight;
+      var form_height = 353;
+      if(window_height > 0){
+        document.querySelector(".sign-in-form").style.marginTop = ((window_height-form_height-50)/2)+"px";
+        document.querySelector(".sign-in-form").classList.add("fadeIn");
+        document.querySelector(".sign-in-form").style.display = 'block';
+        // $(".sign-in-form").css("marginTop",((window_height-form_height-50)/2)+"px").fadeIn();
+      }
+  
+    }), 300);
+
+    // setTimeout((function(){
+    //   var window_height = $(window).height();
+    //   var form_height = $(".sign-in-form").height();
+      
+    //   if(window_height > 0){
+    //     $(".sign-in-form").css("marginTop",((window_height-form_height-50)/2)+"px").fadeIn();
+    //   }
+  
+    // }),300);
 
     var $this = this;
     $(".actions").parents("form").keydown(function(event){ 

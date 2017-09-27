@@ -189,9 +189,12 @@ class SelectBox extends Component {
       // console.log(this.props.modelJson);
 
       // 本地数据select
-      if (this.props.modelJson) {
-        this.setState({data: this.props.modelJson.list});
+      if (this.props.isLocal) {
+
+        // console.log(this.props.modelJson.list);
+
         // console.log(response.data.list);
+        // console.log(this.props.filterText);
         if(this.props.filterText){
           options.push(<Option key={-1} value="">{this.props.filterText}</Option>);
           this.props.modelJson.list.map(d => 
@@ -203,7 +206,12 @@ class SelectBox extends Component {
           );
         }
 
-        this.setState({options: options});
+        // console.log(options);
+
+        this.setState({
+          data: this.props.modelJson.list,
+          options: options
+        });
 
         this.updateOneOption(undefined, options);
 
@@ -274,24 +282,54 @@ class SelectBox extends Component {
 
     $.each(this.state.selectLinkageOption, function(index, val) {
 
-      // 无值
-      if (value !== undefined) {
-        selectTpl.push(<Select key={index} value={value+""} onSelect={thisClass.handleLinkageSelect} placeholder={thisClass.props.placeholder[index]}>
-                      {thisClass.state.selectLinkageOption[index]}
-                    </Select>);
       // 有值
+      if (value !== undefined) {
+        selectTpl.push(<Select 
+                        key={index} 
+                        value={value+""} 
+                        onSelect={thisClass.handleLinkageSelect} 
+                        placeholder={thisClass.props.placeholder[index]}
+                        style={{ width: this.props.width?this.props.width:"auto" }}
+                      >
+                        {thisClass.state.selectLinkageOption[index]}
+                      </Select>);
+      // 无值
       }else{
         // 如果是筛选模式
         if (thisClass.props.isFilter) {
-          selectTpl.push(<Select style={{marginRight: (index===thisClass.state.selectLinkageOption.length-1?0:5)}} key={index} value={thisClass.state.selectLinkageValue[index]?thisClass.state.selectLinkageValue[index]:""} onSelect={thisClass.handleLinkageSelect} placeholder={thisClass.props.placeholder[index]}>
-                        {thisClass.state.selectLinkageOption[index]}
-                      </Select>);
+          selectTpl.push(<Select 
+                          style={{marginRight: (index===thisClass.state.selectLinkageOption.length-1?0:5)}} 
+                          key={index} 
+                          value={thisClass.state.selectLinkageValue[index]?thisClass.state.selectLinkageValue[index]:""} 
+                          onSelect={thisClass.handleLinkageSelect} 
+                          placeholder={thisClass.props.placeholder[index]}
+                          style={{ width: thisClass.props.width?thisClass.props.width:"auto" }}
+                        >
+                          {thisClass.state.selectLinkageOption[index]}
+                        </Select>);
+        // 如果是workflow模式
+        }else if (thisClass.props.isWorkflow) {
+          selectTpl.push(<Select 
+                          key={index} 
+                          value={undefined} 
+                          onSelect={thisClass.handleLinkageSelect} 
+                          placeholder={thisClass.props.placeholder}
+                          style={{ width: thisClass.props.width?thisClass.props.width:"auto" }}
+                          >
+                            {options?options:thisClass.state.options}
+                        </Select>);
         // 不是筛选模式
         }else {
           // console.log(this.state.options);
-          selectTpl.push(<Select key={index} value={thisClass.state.selectLinkageValue[index]} onSelect={thisClass.handleLinkageSelect} placeholder={thisClass.props.placeholder[index]}>
-                        {thisClass.state.selectLinkageOption[index]}
-                      </Select>);
+          selectTpl.push(<Select 
+                          key={index} 
+                          value={thisClass.state.selectLinkageValue[index]} 
+                          onSelect={thisClass.handleLinkageSelect} 
+                          placeholder={thisClass.props.placeholder[index]}
+                          style={{ width: thisClass.props.width?thisClass.props.width:"auto" }}
+                        >
+                          {thisClass.state.selectLinkageOption[index]}
+                        </Select>);
         }
       }
 
@@ -307,24 +345,53 @@ class SelectBox extends Component {
     // console.log(value);
     // console.log(this.props.value);
 
-    // 无值
-    if (value !== undefined) {
-      selectTpl.push(<Select key={1} value={value+""} onChange={this.handleChange} placeholder={this.props.placeholder}>
-                    {this.state.options}
-                  </Select>);
     // 有值
+    if (value !== undefined) {
+      selectTpl.push(<Select 
+                      key={1} 
+                      value={value+""} 
+                      onChange={this.handleChange} 
+                      placeholder={this.props.placeholder}
+                      style={{ width: this.props.width?this.props.width:"auto" }}
+                    >
+                      {this.state.options}
+                    </Select>);
+    // 无值
     }else{
       // 如果是筛选模式
       if (this.props.isFilter) {
-        selectTpl.push(<Select key={1} value={""} onChange={this.handleChange} placeholder={this.props.placeholder}>
-                      {this.state.options}
-                    </Select>);
+        selectTpl.push(<Select 
+                        key={1} 
+                        value={""} 
+                        onChange={this.handleChange} 
+                        placeholder={this.props.placeholder}
+                        style={{ width: this.props.width?this.props.width:"auto" }}
+                        >
+                          {options?options:this.state.options}
+                      </Select>);
+      // 如果是workflow模式
+      }else if (this.props.isWorkflow) {
+        selectTpl.push(<Select 
+                        key={1} 
+                        value={undefined} 
+                        onChange={this.handleChange} 
+                        placeholder={this.props.placeholder}
+                        style={{ width: this.props.width?this.props.width:"auto" }}
+                        >
+                          {options?options:this.state.options}
+                      </Select>);
       // 不是筛选模式
       }else {
         // console.log(this.state.options);
-        selectTpl.push(<Select key={1} value={this.props.value?this.state.value+"":undefined} onChange={this.handleChange} placeholder={this.props.placeholder}>
-                      {options?options:this.state.options}
-                    </Select>);
+        selectTpl.push(<Select 
+                        key={1} 
+                        value={this.props.value?this.state.value+"":undefined} 
+                        onChange={this.handleChange} 
+                        placeholder={this.props.placeholder}
+                        style={{ width: this.props.width?this.props.width:"auto" }}
+                        >
+                          {options?options:this.state.options}
+                      </Select>);
       }
     }
 

@@ -1,9 +1,9 @@
 {
   "name": "worstui",
-  "version": "0.1.13",
+  "version": "0.1.25",
   "author": "the514 <the514xx@gmail.com>",
   "dependencies": {
-    "antd": "^2.12.7",
+    "antd": "^2.13.0",
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
@@ -51,7 +51,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir lib --copy-files",
+    "prepare": "node_modules/babel-cli/bin/babel.js src --out-dir lib --copy-files",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

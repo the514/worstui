@@ -5,6 +5,8 @@ import axios from 'axios';
 // import Config from '../../../../src/Modules/Config';
 import Config from '../Modules/Config';
 
+const confirm = Modal.confirm;
+
 class ImgUpload extends Component {
 
   constructor(props) {
@@ -83,30 +85,53 @@ class ImgUpload extends Component {
 
   handleRemove = (file) => {
     // const config = Global.getHeader();
-    const config = Global.getHeader();
     let thisClass = this;
-    console.log(this.props.url + Config.uploadImgUrl() + "/" + file.uid);
-    axios.delete(this.props.url + Config.uploadImgUrl() + "/" + file.uid, config)
-      .then(response => {
-        console.log(response.headers);
-        if (response.headers["access-token"]) {
-          Global.setTokenHeader(response);
-        }
-        Global.openNotification({type:"success", title:"操作成功", body:"图片已删除。"});
-        this.triggerChange("");
-        Global.LoadingEnd();
-      })
-      .catch(function (error) {
-        console.log(error);
-        if (error.response.status === 404) {
-          Global.openNotification({type:"success", title:"操作成功", body:"图片已删除。"});
-          thisClass.triggerChange("");
-        }else{
-          Global.openNotification({type:"error", title:"操作失败", body:"请求超时，请刷新重试！"});
-        }
-        Global.getAuth(error);
-        Global.LoadingEnd();
-      });
+    // console.log(file);
+    confirm({
+      title: '确定删除?',
+      // content: 'Some descriptions',
+      onOk() {
+
+        const config = Global.getHeader();
+        // console.log(thisClass.props.url + Config.uploadImgUrl() + "/" + file.uid);
+        axios.delete(thisClass.props.url + Config.uploadImgUrl() + "/" + file.uid, config)
+          .then(response => {
+            console.log(response.headers);
+            if (response.headers["access-token"]) {
+              Global.setTokenHeader(response);
+            }
+            Global.openNotification({type:"success", title:"操作成功", body:"图片已删除。"});
+            thisClass.triggerChange("");
+            Global.LoadingEnd();
+          })
+          .catch(function (error) {
+            console.log(error);
+            if (error.response.status === 404) {
+              Global.openNotification({type:"success", title:"操作成功", body:"图片已删除。"});
+              thisClass.triggerChange("");
+            }else{
+              Global.openNotification({type:"error", title:"操作失败", body:"请求超时，请刷新重试！"});
+            }
+            Global.getAuth(error);
+            Global.LoadingEnd();
+          });
+
+      },
+      onCancel() {
+        // console.log('Cancel');
+        let filelistArr = [];
+        let filelist = {};
+
+        filelist.uid = file.uid;
+        filelist.name =  file.name;
+        filelist.status = "done";
+        filelist.url = file.url;
+        filelistArr.push(filelist);
+        // console.log(filelistArr);
+        thisClass.setState({ fileList: filelistArr });
+      },
+    });
+    
   }
 
   triggerChange = (changedValue) => {

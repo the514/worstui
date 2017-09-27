@@ -33,6 +33,7 @@ class GetFilterTpl extends Component {
     let pHolder = this.props.pHolder;
     let onChange = this.props.onChange;
     let val = this.props.val;
+    let isLocal = this.props.isLocal;
 
     let dataValue = null;
 
@@ -87,30 +88,56 @@ class GetFilterTpl extends Component {
       case "select":
 
         let SelectTpl = Global.columnsDataSource(key);
-
         this.setState({filterLinkageDataKey: SelectTpl.modelDataFilterKey});
 
-        dataValue = <div className="filter-item filter-item-select">
-                      <SelectBox 
-                        modelUrl={SelectTpl.modelUrl} 
-                        modelDataKey={SelectTpl.modelDataKey} 
-                        modelDataValue={SelectTpl.modelDataValue} 
-                        placeholder={SelectTpl.modelDataPlaceholder}
-                        filterText={SelectTpl.modelDataFilterText}
-                        isFilter={ true }
-                        onChange={ this.filterHandleSelectChange }
-                        modelDataLinkage={SelectTpl.modelDataLinkage}
-                        modelDataColumn={SelectTpl.modelDataColumn}
-                        modelDataParams={SelectTpl.modelDataParams}
-                      />
-                      <input
-                        type="hidden"
-                        ref={(input)=> this.dateinput = input}
-                        data-filter={key}
-                        value={this.state.dateValue}
-                        onChange={ this.filterInputHandleSelectChange }
-                      />
-                    </div>;
+        if (isLocal) {
+          dataValue = <div className="filter-item filter-item-select">
+                        <SelectBox 
+                          modelJson={SelectTpl.modelJson} 
+                          modelDataKey={SelectTpl.modelDataKey} 
+                          modelDataValue={SelectTpl.modelDataValue} 
+                          placeholder={SelectTpl.modelDataPlaceholder}
+                          filterText={SelectTpl.modelDataFilterText}
+                          isFilter={ true }
+                          isLocal={ isLocal }
+                          onChange={ this.filterHandleSelectChange }
+                          modelDataLinkage={SelectTpl.modelDataLinkage}
+                          modelDataColumn={SelectTpl.modelDataColumn}
+                          modelDataParams={SelectTpl.modelDataParams}
+                        />
+                        <input
+                          type="hidden"
+                          ref={(input)=> this.dateinput = input}
+                          data-filter={key}
+                          value={this.state.dateValue}
+                          onChange={ this.filterInputHandleSelectChange }
+                        />
+                      </div>;
+        }else{
+
+          dataValue = <div className="filter-item filter-item-select">
+                        <SelectBox
+                          modelUrl={SelectTpl.modelUrl} 
+                          modelDataKey={SelectTpl.modelDataKey} 
+                          modelDataValue={SelectTpl.modelDataValue} 
+                          placeholder={SelectTpl.modelDataPlaceholder}
+                          filterText={SelectTpl.modelDataFilterText}
+                          isFilter={ true }
+                          onChange={ this.filterHandleSelectChange }
+                          modelDataLinkage={SelectTpl.modelDataLinkage}
+                          modelDataColumn={SelectTpl.modelDataColumn}
+                          modelDataParams={SelectTpl.modelDataParams}
+                        />
+                        <input
+                          type="hidden"
+                          ref={(input)=> this.dateinput = input}
+                          data-filter={key}
+                          value={this.state.dateValue}
+                          onChange={ this.filterInputHandleSelectChange }
+                        />
+                      </div>;
+        }
+
 
         break;
       default:

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { notification } from 'antd';
 // import axios from 'axios';
-import $ from 'jquery';
+// import $ from 'jquery';
 // import Config from '../../../src/Modules/Config';
 import Config from './Modules/Config';
 
@@ -10,11 +10,39 @@ var hope = ""; // 有些变量不是拿来用的, 是值得占有一部分内存
 class Global extends Component {
 
     static LoadingStart = () => {
-      $(".loading").fadeIn();
+      // $(".loading").fadeIn();
+      // let element = document.querySelector(".loading");
+      // let op = 0.1;  // initial opacity
+      // element.style.display = 'block';
+      // let timer = setInterval(function () {
+      //     if (op >= 1){
+      //         clearInterval(timer);
+      //     }
+      //     element.style.opacity = op;
+      //     element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+      //     op += op * 0.1;
+      // }, 10);
+      let element = document.querySelector(".loading");
+      element.classList.remove("fadeOut");
+      element.classList.add("fadeIn");
 	  }
 
     static LoadingEnd = () => {
-      $(".loading").fadeOut();
+      // $(".loading").fadeOut();
+      // let element = document.querySelector(".loading");
+      // var op = 1;  // initial opacity
+      // var timer = setInterval(function () {
+      //     if (op <= 0.1){
+      //         clearInterval(timer);
+      //         element.style.display = 'none';
+      //     }
+      //     element.style.opacity = op;
+      //     element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+      //     op -= op * 0.1;
+      // }, 50);
+      let element = document.querySelector(".loading");
+      element.classList.remove("fadeIn");
+      element.classList.add("fadeOut");
     }
 
     static getUrl () {
@@ -85,8 +113,8 @@ class Global extends Component {
           if (localStorage.getItem("admin-access-token")) {
             Global.openNotification({type:"error", title:"账号认证失败", body:"请重新登录！"});
           }
+          Global.LoadingStart();
           window.location.hash = "#login";
-          $(".loading").fadeOut();
         }
       }else {
         Global.openNotification({type:"error", title:"操作失败", body:"请求超时，请刷新重试！"});

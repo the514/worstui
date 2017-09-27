@@ -110,7 +110,13 @@ class List extends Component {
           $.each(columns, function(index, val) {
             $.each(columns[index], function(k, v) {
 
-              columns[index] = GetColumnConfig(columns[index].key, v, columns[index], thisClass);
+              columns[index] = GetColumnConfig(
+                                columns[index].key, 
+                                v, 
+                                columns[index], 
+                                thisClass,
+                                thisClass.props.isHiddenDeleteButton
+                              );
 
             });
           });
@@ -179,7 +185,9 @@ class List extends Component {
                               key={i}
                               pHolder={columns[i].filter_placeholder}
                               onChange={thisClass.filterHandleChange}
-                              val={thisClass.state.filterTextObj} />
+                              val={thisClass.state.filterTextObj}
+                              isLocal={columns[i].isLocal}
+                               />
               );
             }
           });
@@ -433,19 +441,23 @@ class List extends Component {
           Global.openNotification({type:"success", title:"操作成功", body:this.props.updateTips});
           Global.LoadingEnd();
 
+          form.resetFields();
+          this.setState({ 
+            editVisible: false,
+            newKey: this.state.newKey + 1
+          });
+
         })
         .catch(function (error) {
-          Global.openNotification({type:"error", title:"操作失败", body:"请求超时，请刷新重试！"});
+          if (error.response.status === 422) {
+            Global.openNotification({type:"error", title:"操作失败", body:error.response.data.rs_msg});
+          }else{
+            Global.openNotification({type:"error", title:"操作失败", body:"请求超时，请刷新重试！"});
+          }
           console.log(error);
           Global.getAuth(error);
           Global.LoadingEnd();
         });
-
-      form.resetFields();
-      this.setState({ 
-        editVisible: false,
-        newKey: this.state.newKey + 1
-      });
 
     });
   }
@@ -551,6 +563,7 @@ class List extends Component {
                 modelUrl={this.props.modelUrl}
                 updateList={this.updateList}
                 addTips={this.props.addTips}
+                isHiddenAddButton={this.props.isHiddenAddButton}
               />
               { showVisible }
               { editVisible }

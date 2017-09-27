@@ -73,9 +73,9 @@ const GetColumnTpl = function(k, v, dataValue, type, url, dataId, updateList, ot
       break;
     case "_price":
       if (type==="add") {
-        dataValue = <InputNumber min={1} />;
+        dataValue = <InputNumber min={0} />;
       }else if (type==="edit") {
-        dataValue = <InputNumber min={1} />;
+        dataValue = <InputNumber min={0} />;
       }else{
         dataValue = "¥" + dataValue;
       }
@@ -113,6 +113,7 @@ const GetColumnTpl = function(k, v, dataValue, type, url, dataId, updateList, ot
                         modelDataLinkage={SelectTpl.modelDataLinkage}
                         modelDataColumn={SelectTpl.modelDataColumn}
                         modelDataParams={SelectTpl.modelDataParams}
+                        isLocal={isLocal}
                       />;
         }else if (type==="edit") {
           dataValue = <SelectBox 
@@ -123,6 +124,7 @@ const GetColumnTpl = function(k, v, dataValue, type, url, dataId, updateList, ot
                         modelDataLinkage={SelectTpl.modelDataLinkage}
                         modelDataColumn={SelectTpl.modelDataColumn}
                         modelDataParams={SelectTpl.modelDataParams}
+                        isLocal={isLocal}
                       />;
         }else{
           $.each(SelectTpl.modelJson.list, function(index, val) {
@@ -172,6 +174,7 @@ const GetColumnTpl = function(k, v, dataValue, type, url, dataId, updateList, ot
                         modelDataLinkage={idSelectTpl.modelDataLinkage}
                         modelDataColumn={idSelectTpl.modelDataColumn}
                         modelDataParams={idSelectTpl.modelDataParams}
+                        isLocal={isLocal}
                       />;
         }else if (type==="edit") {
           dataValue = <SelectBox 
@@ -182,6 +185,7 @@ const GetColumnTpl = function(k, v, dataValue, type, url, dataId, updateList, ot
                         modelDataLinkage={idSelectTpl.modelDataLinkage}
                         modelDataColumn={idSelectTpl.modelDataColumn}
                         modelDataParams={idSelectTpl.modelDataParams}
+                        isLocal={isLocal}
                       />;
         }else{
           $.each(idSelectTpl.modelJson.list, function(index, val) {
@@ -311,13 +315,14 @@ const GetColumnTpl = function(k, v, dataValue, type, url, dataId, updateList, ot
         dataValue = <div style={{height: "150px"}}><img src={dataValue} height="150" alt="" /></div>;
       }
       break;
+    case "_status":
     case "_state":
       let workflow = Global.columnsDataSource(k);
       if (type==="add") {
         dataValue = dataValue + "";
       }else if (type==="show") {
         $.each(workflow.state, function(key, val) {
-          if (key===dataValue) {
+          if (key===dataValue + "") {
             dataValue = workflow.state[key].text;
           }
         });

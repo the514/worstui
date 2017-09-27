@@ -94,6 +94,46 @@ body {
   .workflow-button:hover {
     background-color: #3aa5f2; }
 
+@-webkit-keyframes fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+.fadeOut {
+  display: block;
+  opacity: 0;
+  -moz-animation: fadeout .5s linear;
+  -webkit-animation: fadeout .5s linear;
+  animation: fadeout .5s linear;
+  animation-fill-mode: forwards; }
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIns {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.fadeIn {
+  display: block;
+  opacity: 0;
+  -moz-animation: fadeIn .5s linear;
+  -webkit-animation: fadeIn .5s linear;
+  animation: fadeIn .5s linear;
+  animation-fill-mode: forwards; }
+
 .btnCkeditorImgUrl {
   transition: all .3s;
   cursor: pointer;
@@ -112,3 +152,20 @@ body {
     width: 200px; }
   .filter-box .filter-item-select > .ant-select {
     min-width: 200px; }
+
+.workflow-item {
+  width: 100%;
+  clear: both;
+  margin-bottom: 15px; }
+  .workflow-item label {
+    float: left;
+    width: 29%;
+    line-height: 28px;
+    text-align: right;
+    margin-right: 1%; }
+
+.workflow-item-text > .ant-input {
+  width: 50%; }
+
+.workflow-item-select > .ant-select {
+  min-width: 300px; }

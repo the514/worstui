@@ -7,6 +7,8 @@ import $ from 'jquery';
 // import Config from '../../../../src/Modules/Config';
 import Config from '../Modules/Config';
 
+const confirm = Modal.confirm;
+
 class CkeditorImg extends Component {
 
   constructor(props) {
@@ -88,7 +90,7 @@ class CkeditorImg extends Component {
 
   componentWillReceiveProps(props) {
     // console.log(this.props.fileList.length);
-    if (this.props.fileList!==null && this.props.fileList !== "" && this.props.fileList.length !== 0) {
+    if (this.props.fileList !== undefined && this.props.fileList!==null && this.props.fileList !== "" && this.props.fileList.length !== 0) {
 
       let filelistArr = [];
       
@@ -183,74 +185,123 @@ class CkeditorImg extends Component {
 
   handleRemove = (file) => {
     // const config = Global.getHeader();
-    const config = Global.getHeader();
-
-    console.log(Global.getUrl() + Config.uploadImgUrl() + "/" + file.id);
     let thisClass = this;
-    axios.delete(Global.getUrl() + Config.uploadImgUrl() + "/" + file.id, config)
-      .then(response => {
-        console.log(response.headers);
-        if (response.headers["access-token"]) {
-          Global.setTokenHeader(response);
-        }
-        Global.openNotification({type:"success", title:"操作成功", body:"图片已删除。"});
 
-        let fileList = this.state.fileList;
-        let fileListResult = [];
-        let fileArrResult = [];
+    confirm({
+      title: '确定删除?',
+      // content: 'Some descriptions',
+      onOk() {
+        
+        const config = Global.getHeader();
 
-        $.each(fileList, function(index, val) {
-          if (fileList[index].id !== file.id) {
-            fileListResult.push(fileList[index]);
-            fileArrResult.push(fileList[index].url);
-          }
-        });
-        this.setState({ 
-          fileList: fileListResult,
-        });
-        if (fileListResult!==[]) {
-          this.triggerChange(fileArrResult.join(','));
-        }else{
-          this.triggerChange('');
-        }
-
-        Global.LoadingEnd();
-      })
-      .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
-        if (error.response.status === 404) {
-          Global.openNotification({type:"success", title:"操作成功", body:"图片已删除。"});
-
-          let fileList = thisClass.state.fileList;
-          let fileListResult = [];
-          let fileArrResult = [];
-          console.log(fileList);
-
-          $.each(fileList, function(index, val) {
-            if (fileList[index].id !== file.id) {
-              fileListResult.push(fileList[index]);
-              fileArrResult.push(fileList[index].url);
+        // console.log(Global.getUrl() + Config.uploadImgUrl() + "/" + file.id);
+        axios.delete(Global.getUrl() + Config.uploadImgUrl() + "/" + file.id, config)
+          .then(response => {
+            console.log(response.headers);
+            if (response.headers["access-token"]) {
+              Global.setTokenHeader(response);
             }
+            Global.openNotification({type:"success", title:"操作成功", body:"图片已删除。"});
+
+            let fileList = thisClass.state.fileList;
+            let fileListResult = [];
+            let fileArrResult = [];
+
+            $.each(fileList, function(index, val) {
+              if (fileList[index].id !== file.id) {
+                fileListResult.push(fileList[index]);
+                fileArrResult.push(fileList[index].url);
+              }
+            });
+            thisClass.setState({ 
+              fileList: fileListResult,
+            });
+            if (fileListResult!==[]) {
+              thisClass.triggerChange(fileArrResult.join(','));
+            }else{
+              thisClass.triggerChange('');
+            }
+
+            Global.LoadingEnd();
+          })
+          .catch(function (error) {
+            console.log(error);
+            console.log(error.response);
+            if (error.response.status === 404) {
+              Global.openNotification({type:"success", title:"操作成功", body:"图片已删除。"});
+
+              let fileList = thisClass.state.fileList;
+              let fileListResult = [];
+              let fileArrResult = [];
+              console.log(fileList);
+
+              $.each(fileList, function(index, val) {
+                if (fileList[index].id !== file.id) {
+                  fileListResult.push(fileList[index]);
+                  fileArrResult.push(fileList[index].url);
+                }
+              });
+
+              thisClass.setState({ 
+                fileList: fileListResult,
+                // fileListShowPic: fileListResult
+              });
+
+              if (fileListResult!==[]) {
+                thisClass.triggerChange(fileArrResult.join(','));
+              }else{
+                thisClass.triggerChange('');
+              }
+
+            }else{
+              Global.openNotification({type:"error", title:"操作失败", body:"请求超时，请刷新重试！"});
+            }
+            Global.getAuth(error);
+            Global.LoadingEnd();
+          });
+        
+      },
+      onCancel() {
+
+        if (thisClass.props.fileList !== undefined && thisClass.props.fileList!==null && thisClass.props.fileList !== "" && thisClass.props.fileList.length !== 0) {
+
+          let filelistArr = [];
+          
+          let fileArr = thisClass.props.fileList.split(",");
+          // console.log(fileArr);
+          // let thisClass = this;
+          $.each(fileArr, function(index, val) {
+
+            let fileUrlArr = fileArr[index].split("/");
+            let fileUrlArrLength = fileArr[index].split("/").length;
+            let filelist = {};
+            filelist.uid = index;
+            filelist.key = index;
+            filelist.id = fileUrlArr[fileUrlArrLength - 2];
+            filelist.name = fileArr[index];
+            filelist.status = "done";
+            filelist.url = fileArr[index];
+            filelist.thumbUrl = fileArr[index];
+            
+
+            filelistArr.push(filelist);
+
           });
 
+          // console.log(filelistArr);
           thisClass.setState({ 
-            fileList: fileListResult,
-            // fileListShowPic: fileListResult
+            fileList: filelistArr,
           });
 
-          if (fileListResult!==[]) {
-            thisClass.triggerChange(fileArrResult.join(','));
-          }else{
-            thisClass.triggerChange('');
-          }
-
-        }else{
-          Global.openNotification({type:"error", title:"操作失败", body:"请求超时，请刷新重试！"});
+        }else {
+          thisClass.setState({ 
+            fileList: [], 
+            // fileListShowPic: []
+          });
         }
-        Global.getAuth(error);
-        Global.LoadingEnd();
-      });
+
+      },
+    });
   }
 
   triggerChange = (changedValue) => {

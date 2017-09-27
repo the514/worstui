@@ -49,7 +49,7 @@
     POST /products
     {
         rs_code: 200,
-        rs_msn: "商品添加成功!",
+        rs_msg: "商品添加成功!",
         model: { product }
     }
     
@@ -63,14 +63,14 @@
     PUT /product/:id
     {
         rs_code: 200,
-        rs_msn: "商品编辑成功!",
+        rs_msg: "商品编辑成功!",
         model: { product }
     }
     
     DELETE /product/:id
     {
         rs_code: 200,
-        rs_msn: "商品删除成功!"
+        rs_msg: "商品删除成功!"
     }
 
 ### 参数设计：
